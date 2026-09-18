@@ -15,6 +15,7 @@ describe('tournament email i18n', () => {
   it('loads apgames bundles for managed languages', () => {
     expect(i18n.hasResourceBundle('de', 'apgames')).toBe(true);
     expect(i18n.hasResourceBundle('en', 'apgames')).toBe(true);
+    expect(i18n.hasResourceBundle('eo', 'apgames')).toBe(true);
   });
 
   it('localizedGameName resolves after changeLanguageForPlayer', async () => {
@@ -23,6 +24,9 @@ describe('tournament email i18n', () => {
     await changeLanguageForPlayer({ language: 'en' });
     expect(localizedGameName(uid)).toBe(fallback);
     await changeLanguageForPlayer({ language: 'de' });
+    expect(localizedGameName(uid).length).toBeGreaterThan(0);
+    await changeLanguageForPlayer({ language: 'eo' });
+    expect(i18n.language).toBe('eo');
     expect(localizedGameName(uid).length).toBeGreaterThan(0);
   });
 

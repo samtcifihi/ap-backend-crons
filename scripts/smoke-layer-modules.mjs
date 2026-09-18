@@ -41,10 +41,35 @@ async function assertLayerPackagePresent(layerDir, pkgName) {
     await access(pkgPath);
 }
 
+/**
+ * @param {string} lang
+ */
+async function assertGameslibLocaleBundlesPresent(lang) {
+    const { access } = await import("node:fs/promises");
+    for (const namespace of ["apgames", "apresults"]) {
+        await access(path.join(
+            ROOT,
+            ".serverless",
+            "layers",
+            "abstractplay-gameslib",
+            "nodejs",
+            "node_modules",
+            "@abstractplay",
+            "gameslib",
+            "locales",
+            lang,
+            `${namespace}.json`,
+        ));
+    }
+}
+
 try {
     const gl = await importLayerEntry("abstractplay-gameslib", ["@abstractplay", "gameslib"]);
     if (!gl.gameinfo || typeof gl.GameFactory !== "function") {
         throw new Error("@abstractplay/gameslib missing expected exports");
+    }
+    for (const lang of ["en", "fr", "de", "it", "es-US", "eo"]) {
+        await assertGameslibLocaleBundlesPresent(lang);
     }
 
     const rr = await importLayerEntry("abstractplay-gameslib", ["@abstractplay", "recranks"]);
@@ -60,7 +85,7 @@ try {
     await assertLayerPackagePresent("abstractplay-chromium", "puppeteer-core");
     await assertLayerPackagePresent("abstractplay-chromium", "@sparticuz/chromium");
 
-    console.log("smoke-layer-modules: gameslib + recranks + renderer + chromium layers OK");
+    console.log("smoke-layer-modules: gameslib locales + modules + renderer + chromium layers OK");
 } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     console.error(`smoke-layer-modules: ${message}`);

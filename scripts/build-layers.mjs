@@ -271,22 +271,27 @@ async function pruneGameslibLayer(layerDir, nodejsDir) {
         await safeRemove(layerDir, path.join(gameslibDir, item));
     }
 
-    const sourceLocalesEn = path.resolve(
-        ROOT,
-        "node_modules/@abstractplay/gameslib/locales/en",
-    );
-    const targetLocalesEn = path.join(gameslibDir, "locales", "en");
-    if (await fs.pathExists(sourceLocalesEn)) {
-        await fs.ensureDir(path.join(gameslibDir, "locales"));
-        await fs.copy(sourceLocalesEn, targetLocalesEn, { overwrite: true });
-        console.log("   - Ensured English locale bundles in layer gameslib");
+    // Keep this list aligned with GAMESLIB_APGAMES_LANGS in src/lib/gameslibLocales.ts.
+    const gameslibLocalesToKeep = new Set(["en", "fr", "de", "it", "es-US", "eo"]);
+    const localesDir = path.join(gameslibDir, "locales");
+    for (const lang of gameslibLocalesToKeep) {
+        const sourceLocale = path.resolve(
+            ROOT,
+            "node_modules/@abstractplay/gameslib/locales",
+            lang,
+        );
+        const targetLocale = path.join(localesDir, lang);
+        if (await fs.pathExists(sourceLocale)) {
+            await fs.ensureDir(localesDir);
+            await fs.copy(sourceLocale, targetLocale, { overwrite: true });
+            console.log(`   - Ensured ${lang} locale bundles in layer gameslib`);
+        }
     }
 
-    const localesDir = path.join(gameslibDir, "locales");
     if (await fs.pathExists(localesDir)) {
         const localeLangs = await fs.readdir(localesDir);
         for (const lang of localeLangs) {
-            if (lang !== "en") {
+            if (!gameslibLocalesToKeep.has(lang)) {
                 await safeRemove(layerDir, path.join(localesDir, lang));
             }
         }

@@ -37,7 +37,7 @@ Queries and updates `TOURNAMENT` records on `abstract-play-{stage}`. Uses retry 
 
 ### Email / i18n
 
-Uses i18next with the `apback` namespace. Locale files in [`src/locales/`](https://github.com/AbstractPlay/backend-crons/tree/develop/src/locales) (en, fr, it). Email templates reference tournament name, meta game, and player lists.
+Uses i18next with the `apback` namespace. Locale files in [`src/locales/`](https://github.com/AbstractPlay/backend-crons/tree/develop/src/locales) (en, eo, fr, it). Email templates reference tournament name, meta game, and player lists.
 
 ### Related backend docs
 

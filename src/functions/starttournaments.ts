@@ -11,6 +11,7 @@ import { applyGameslibBundlesTo, GAMESLIB_APGAMES_LANGS } from '../lib/gameslibL
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import i18n from 'i18next';
 import en from '../locales/en/apback.json';
+import eo from '../locales/eo/apback.json';
 import fr from '../locales/fr/apback.json';
 import it from '../locales/it/apback.json';
 import { Handler } from "aws-lambda";
@@ -46,7 +47,7 @@ type StartTournamentsEvent = {
   resume?: boolean;
 };
 
-const APBACK_BY_LANG = { en, fr, it } as const;
+const APBACK_BY_LANG = { en, eo, fr, it } as const;
 const REGISTERED_LANGUAGES = [...new Set([
   ...Object.keys(APBACK_BY_LANG),
   ...GAMESLIB_APGAMES_LANGS,

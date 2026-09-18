@@ -11,7 +11,7 @@ const localesPath = path.join(gameslibRoot, 'locales');
 
 const GAMESLIB_NAMESPACES = ['apgames', 'apresults'] as const;
 
-export const GAMESLIB_APGAMES_LANGS = ['en', 'fr', 'de', 'it', 'es-US'] as const;
+export const GAMESLIB_APGAMES_LANGS = ['en', 'fr', 'de', 'it', 'es-US', 'eo'] as const;
 
 /** Load gameslib locale JSON from disk (Node 24-safe; no static JSON imports). */
 export function loadGameslibLocaleBundles(lang: string): Record<string, object> {

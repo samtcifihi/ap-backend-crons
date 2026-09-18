@@ -17,12 +17,13 @@ import {
 import { pauseMatchingRealStandingEntries } from '../lib/pauseRealStanding.js';
 import { revokeChallengeRecord } from '../lib/revokeChallenge.js';
 import en from '../locales/en/apback.json';
+import eo from '../locales/eo/apback.json';
 import fr from '../locales/fr/apback.json';
 import it from '../locales/it/apback.json';
 import { applyGameslibBundlesTo, GAMESLIB_APGAMES_LANGS } from '../lib/gameslibLocales.js';
 import type { ChallengeForStandingMatch } from '../lib/standingChallengeMatch.js';
 
-const APBACK_BY_LANG = { en, fr, it } as const;
+const APBACK_BY_LANG = { en, eo, fr, it } as const;
 const REGISTERED_LANGUAGES = [...new Set([
   ...Object.keys(APBACK_BY_LANG),
   ...GAMESLIB_APGAMES_LANGS,

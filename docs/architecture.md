@@ -34,7 +34,7 @@ Functions that call `@abstractplay/gameslib` attach the `abstractplayGameslib` l
 
 - Bundles `@abstractplay/gameslib` and `@abstractplay/recranks` into `.serverless/layers/abstractplay-gameslib`
 - Strips `@abstractplay/renderer` (transitive dep, not needed at runtime)
-- Prunes docs and tests from the layer to stay under Lambda size limits; retains gameslib `locales/en/` for variant name resolution during record generation
+- Prunes docs and tests from the layer to stay under Lambda size limits; retains the supported gameslib locale bundles for localized game names
 
 esbuild marks `@abstractplay/gameslib` and `@abstractplay/recranks` as **external** so they resolve from the layer at runtime, not from the function bundle.
 
@@ -79,7 +79,7 @@ The service role grants:
 | `@abstractplay/gameslib` | records, records-ttm, records-move-times, summarize, player-summary-fanout, rating-change-notifications, starttournaments | `GameFactory`, `gameinfo`, `genRecord`, `addResource` |
 | `@abstractplay/recranks` | records, summarize | `APGameRecord`, ELO/Glicko2/Trueskill raters |
 | `ion-js`, `fflate` | dump consumers | Parse gzipped ION export files |
-| `i18next` | records, starttournaments | Email copy (`apback` namespace) |
+| `i18next` | records, starttournaments, inactive-challenge-cleanup | Email copy (`apback` namespace) |
 
 `records-cooccur` uses `ion-js` and `fflate` only (no gameslib layer).
 
@@ -88,7 +88,7 @@ The service role grants:
 ```
 src/functions/     Lambda handlers
 src/types/         Record and StatSummary TypeScript types
-src/locales/       i18n strings (en, fr, it) for tournament emails
+src/locales/       i18n strings (en, eo, fr, it) for scheduled emails
 src/utils/         Shared utilities (e.g. isoToCountryCode, cooccurPmi)
 scripts/           build-layers.mjs
 serverless.yml     Infrastructure and schedules
